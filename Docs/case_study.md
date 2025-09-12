@@ -51,8 +51,9 @@ To solve this, I built an AI-powered booking assistant using:
 
 
 
-### 📌 See 
-[Screenshots](./Docs/workflow_overview.png)
+### 📌 See Workflow Overview Diagram
+
+   <img width="272" height="789" alt="workflow_overview" src="https://github.com/user-attachments/assets/b5132276-1861-4d24-943b-ea911096181d" />
 
 
 ### 5. Business Impact
