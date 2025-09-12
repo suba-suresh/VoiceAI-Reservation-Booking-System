@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Business Case Study — AI Restaurant Booking Automation</title>
+  <meta name="description" content="Professional business case study presentation for Crown Street Food’s AI-powered booking automation." />
+  <style>
+    :root {
+      --bg:#ffffff; --primary:#0f172a; --secondary:#475569; --accent:#0ea5a4; --accent-light:#ccfbf1; --card:#f8fafc; --max:1100px;
+    }
+    body {margin:0;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--primary);line-height:1.6;}
+    .hero {background:linear-gradient(120deg,var(--accent),#14b8a6);color:white;text-align:center;padding:60px 20px;border-bottom-left-radius:30px;border-bottom-right-radius:30px;box-shadow:0 6px 20px rgba(0,0,0,0.1)}
+    .hero h1 {margin:0;font-size:2.2rem;animation:fadeIn 1s ease-out;}
+    .hero p {font-size:1.1rem;max-width:650px;margin:12px auto 0;animation:fadeIn 1.3s ease-out;}
+
+    .container {max-width:var(--max);margin:0 auto;padding:40px 20px;}
+    section {margin-bottom:50px;opacity:0;transform:translateY(30px);transition:opacity 0.8s ease, transform 0.8s ease;}
+    section.visible {opacity:1;transform:translateY(0);}
+    h2 {font-size:1.5rem;margin-bottom:12px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;}
+    .grid {display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+    .card {background:var(--card);padding:20px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.05);border-top:4px solid var(--accent);transition:transform 0.2s ease, box-shadow 0.2s ease;}
+    .card:hover {transform:translateY(-4px);box-shadow:0 6px 16px rgba(0,0,0,0.08);}
+    .card h3 {margin-top:0;color:var(--primary)}
+    pre {background:#0b1220;color:#e6eef8;padding:14px;border-radius:10px;overflow-x:auto;font-size:0.9rem}
+    .workflow-wrapper {background:var(--accent-light);padding:20px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.05);text-align:center;}
+    img.diagram {max-width:100%;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+    footer {text-align:center;color:var(--secondary);padding:30px 10px;border-top:1px solid #e2e8f0;font-size:0.9rem}
+
+    @keyframes fadeIn {
+      from {opacity:0;transform:translateY(20px);}
+      to {opacity:1;transform:translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>AI-Powered Restaurant Booking Automation</h1>
+    <p>A professional business case study presentation for Crown Street Food — streamlining reservations with Vapi, Make.com, Google Calendar, and Gmail.</p>
+  </header>
+
+  <main class="container">
+    <section id="introduction">
+      <h2>1. Introduction</h2>
+      <p>Crown Street Food, a local restaurant in Lillington, faced challenges with manual booking management — staff spent significant time handling calls, managing double-bookings, and confirming reservations manually.</p>
+      <p>This project introduced an AI-powered booking assistant integrating:</p>
+      <div class="grid">
+        <div class="card" style="background:#ecfeff"><h3>Vapi</h3><p>Voice AI assistant to capture booking requests.</p></div>
+        <div class="card" style="background:#f0fdfa"><h3>Make.com</h3><p>Automation and integration platform to orchestrate workflows.</p></div>
+        <div class="card" style="background:#f0f9ff"><h3>Google Calendar</h3><p>Single source of truth for reservations and availability.</p></div>
+        <div class="card" style="background:#fdf4ff"><h3>Gmail</h3><p>Automatic email confirmations and cancellations.</p></div>
+      </div>
+    </section>
+
+    <section id="problem">
+      <h2>2. Problem Statement</h2>
+      <div class="grid">
+        <div class="card" style="background:#fff7ed"><h3>Manual Calls</h3><p>Prone to human error and miscommunication.</p></div>
+        <div class="card" style="background:#fef2f2"><h3>No Centralized System</h3><p>Double-bookings were possible, frustrating customers.</p></div>
+        <div class="card" style="background:#fefce8"><h3>Staff Burden</h3><p>Time-consuming confirmations and cancellations.</p></div>
+        <div class="card" style="background:#f5f3ff"><h3>Customer Experience</h3><p>Lack of instant booking confirmation.</p></div>
+      </div>
+    </section>
+
+    <section id="solution">
+      <h2>3. Solution Overview</h2>
+      <pre>Create → AI captures booking request → Webhook → Calendar event created → Confirmation email sent
+Read   → AI checks existing bookings → returns availability
+Update → AI locates event by Booking ID or name+time → updates → sends confirmation
+Delete → AI finds event → deletes → sends cancellation email</pre>
+    </section>
+
+    <section id="architecture">
+      <h2>4. Workflow Architecture</h2>
+      <div class="workflow-wrapper">
+       <img class="diagram" src="docs/workflow_overview.png" alt="Workflow Diagram" />
+      </div>
+    </section>
+
+    <section id="impact">
+      <h2>5. Business Impact</h2>
+      <div class="grid">
+        <div class="card" style="background:#f0f9ff"><h3>Error Reduction</h3><p>Google Calendar as the single source of truth eliminates double-bookings.</p></div>
+        <div class="card" style="background:#f0fdfa"><h3>Customer Satisfaction</h3><p>Instant confirmations improved user experience.</p></div>
+        <div class="card" style="background:#fefce8"><h3>Operational Efficiency</h3><p>Freed staff from manual booking management.</p></div>
+        <div class="card" style="background:#fdf4ff"><h3>Scalability</h3><p>Future-ready for SMS/WhatsApp reminders and multi-language support.</p></div>
+      </div>
+    </section>
+
+    <section id="future">
+      <h2>6. Future Enhancements</h2>
+      <ul>
+        <li>SMS reminders via Twilio or Vonage</li>
+        <li>Daily summary email for upcoming reservations</li>
+        <li>Loyalty tracking and offers for frequent diners</li>
+        <li>Multi-language support</li>
+      </ul>
+    </section>
+
+    <section id="learnings">
+      <h2>7. Key Learnings</h2>
+      <ul>
+        <li>Router + filters in Make.com are essential for separating CRUD operations.</li>
+        <li>Best practices: use Booking ID vs search for updates/deletions.</li>
+        <li>Document workflows clearly but never expose live webhook URLs publicly.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Crown Street Food | Business Case Study Presentation
+  </footer>
+
+  <script>
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){entry.target.classList.add('visible');}
+      });
+    },{threshold:0.2});
+
+    document.querySelectorAll('section').forEach(sec=>observer.observe(sec));
+  </script>
+</body>
+</html>
