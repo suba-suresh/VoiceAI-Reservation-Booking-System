@@ -1,0 +1,1487 @@
+{
+    "name": "VAPI AI Assistant Integration Webhook  ",
+    "flow": [
+        {
+            "id": 2,
+            "module": "gateway:CustomWebHook",
+            "version": 1,
+            "parameters": {
+                "hook": 3168288,
+                "maxResults": 1
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 300
+                },
+                "restore": {
+                    "parameters": {
+                        "hook": {
+                            "data": {
+                                "editable": "true"
+                            },
+                            "label": "Check_Availability"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "hook",
+                        "type": "hook:gateway-webhook",
+                        "label": "Webhook",
+                        "required": true
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of results"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 20,
+            "module": "util:SetVariable2",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "name": "DateTimeParsed",
+                "scope": "roundtrip",
+                "value": "{{formatDate(parseDate(2.requestedDate + 2.requestedTime; \"YYYY-MM-DD HH:mm\"; \"Europe/London\"); \"YYYY-MM-DDTHH:mm:ssZ\")}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 300
+                },
+                "restore": {
+                    "expect": {
+                        "scope": {
+                            "label": "One cycle"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Variable name",
+                        "required": true
+                    },
+                    {
+                        "name": "scope",
+                        "type": "select",
+                        "label": "Variable lifetime",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "roundtrip",
+                                "execution"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "type": "any",
+                        "label": "Variable value"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "DateTimeParsed",
+                        "type": "any",
+                        "label": "DateTimeParsed"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 30,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 300
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 22,
+                            "module": "google-calendar:createAnEvent",
+                            "version": 5,
+                            "parameters": {
+                                "__IMTCONN__": 11470105
+                            },
+                            "filter": {
+                                "name": "Create Booking",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{2.action}}",
+                                            "b": "create",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "end": "{{addMinutes(20.DateTimeParsed; 120)}}",
+                                "start": "{{20.DateTimeParsed}}",
+                                "select": "detail",
+                                "summary": "Table for {{2.guests}} - {{2.name}}",
+                                "calendar": "subasureshaienthuiast@gmail.com",
+                                "location": "Crown Street Food, Crown Street, Lillington",
+                                "visibility": "default",
+                                "allDayEvent": false,
+                                "description": "Reservation Details:\nCustomer: {{2.name}}\nParty Size: {{2.guests}} guests\nPhone: {{2.phone}}\nEmail: {{2.email}}\nSpecial Requests: {{if(length(2.special_requests) > 0; 2.special_requests; \"None\")}}\nBooking Time: {{formatDate(parseDate(20.DateTimeParsed); \"dddd, MMMM Do YYYY [at] h:mm A\")}}\n\nBooking made via Crown Street Food Voice Assistant",
+                                "transparency": "opaque",
+                                "conferenceDate": false,
+                                "guestPermissions": {
+                                    "guestsCanModify": false,
+                                    "guestsCanInviteOthers": true,
+                                    "guestsCanSeeOtherGuests": true
+                                }
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 900,
+                                    "y": 0
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "select": {
+                                            "label": "In Detail"
+                                        },
+                                        "colorId": {
+                                            "mode": "chose"
+                                        },
+                                        "calendar": {
+                                            "mode": "chose",
+                                            "label": "subasureshaienthuiast@gmail.com (Primary Calendar)"
+                                        },
+                                        "attendees": {
+                                            "mode": "chose"
+                                        },
+                                        "overrides": {
+                                            "mode": "chose"
+                                        },
+                                        "recurrence": {
+                                            "mode": "chose"
+                                        },
+                                        "visibility": {
+                                            "mode": "chose",
+                                            "label": "Default"
+                                        },
+                                        "allDayEvent": {
+                                            "mode": "chose"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose"
+                                        },
+                                        "sendUpdates": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "transparency": {
+                                            "mode": "chose",
+                                            "label": "Busy"
+                                        },
+                                        "conferenceDate": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "My Google connection (subasureshaienthuiast@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "select",
+                                        "type": "select",
+                                        "label": "Create an Event",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "quick",
+                                                "detail"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "calendar",
+                                        "type": "select",
+                                        "label": "Calendar ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "colorId",
+                                        "type": "select",
+                                        "label": "Color"
+                                    },
+                                    {
+                                        "name": "summary",
+                                        "type": "text",
+                                        "label": "Event Name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "allDayEvent",
+                                        "type": "boolean",
+                                        "label": "All Day Event",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "start",
+                                        "time": true,
+                                        "type": "date",
+                                        "label": "Start Date",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "end",
+                                        "time": true,
+                                        "type": "date",
+                                        "label": "End Date"
+                                    },
+                                    {
+                                        "name": "duration",
+                                        "type": "time",
+                                        "label": "Duration"
+                                    },
+                                    {
+                                        "name": "description",
+                                        "type": "text",
+                                        "label": "Description"
+                                    },
+                                    {
+                                        "name": "location",
+                                        "type": "text",
+                                        "label": "Location"
+                                    },
+                                    {
+                                        "name": "useDefault",
+                                        "type": "boolean",
+                                        "label": "Use the default reminder settings for this event"
+                                    },
+                                    {
+                                        "name": "overrides",
+                                        "spec": [
+                                            {
+                                                "name": "method",
+                                                "type": "select",
+                                                "label": "Method",
+                                                "options": [
+                                                    {
+                                                        "label": "Email",
+                                                        "value": "email"
+                                                    },
+                                                    {
+                                                        "label": "Pop-up",
+                                                        "value": "popup"
+                                                    }
+                                                ],
+                                                "required": true
+                                            },
+                                            {
+                                                "name": "minutes",
+                                                "type": "uinteger",
+                                                "label": "Minutes",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 40320
+                                                }
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Reminders",
+                                        "validate": {
+                                            "maxItems": 5
+                                        }
+                                    },
+                                    {
+                                        "name": "attendees",
+                                        "spec": [
+                                            {
+                                                "name": "displayName",
+                                                "type": "text",
+                                                "label": "Name"
+                                            },
+                                            {
+                                                "name": "email",
+                                                "type": "email",
+                                                "label": "Email",
+                                                "required": true
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Attendees"
+                                    },
+                                    {
+                                        "name": "transparency",
+                                        "type": "select",
+                                        "label": "Show me as",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "opaque",
+                                                "transparent"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "visibility",
+                                        "type": "select",
+                                        "label": "Visibility",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "default",
+                                                "public",
+                                                "private"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "sendUpdates",
+                                        "type": "select",
+                                        "label": "Send notifications about the event creation",
+                                        "validate": {
+                                            "enum": [
+                                                "all",
+                                                "externalOnly",
+                                                "none"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "guestPermissions",
+                                        "spec": [
+                                            {
+                                                "name": "guestsCanModify",
+                                                "type": "boolean",
+                                                "label": "Modify event",
+                                                "required": true
+                                            },
+                                            {
+                                                "name": "guestsCanInviteOthers",
+                                                "type": "boolean",
+                                                "label": "Invite others",
+                                                "required": true
+                                            },
+                                            {
+                                                "name": "guestsCanSeeOtherGuests",
+                                                "type": "boolean",
+                                                "label": "See guest list",
+                                                "required": true
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Guest Permissions"
+                                    },
+                                    {
+                                        "name": "recurrence",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Value"
+                                        },
+                                        "type": "array",
+                                        "label": "Recurrence"
+                                    },
+                                    {
+                                        "name": "conferenceDate",
+                                        "type": "boolean",
+                                        "label": "Add Google Meet Video Conferencing",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": [
+                                            {
+                                                "name": "fileUrl",
+                                                "type": "url",
+                                                "label": "File URL",
+                                                "required": true
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    }
+                                ],
+                                "advanced": true
+                            }
+                        },
+                        {
+                            "id": 26,
+                            "module": "google-email:ActionSendEmail",
+                            "version": 2,
+                            "parameters": {
+                                "account": 11473219
+                            },
+                            "mapper": {
+                                "cc": [],
+                                "to": [
+                                    "{{2.email}}"
+                                ],
+                                "bcc": [],
+                                "from": "",
+                                "html": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }\n        .header { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }\n        .booking-details { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; }\n        .restaurant-info { margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd; }\n        ul { list-style: none; padding: 0; }\n        li { margin: 8px 0; }\n        strong { color: #2c3e50; }\n    </style>\n</head>\n<body>\n    <h2 class=\"header\">🍽️ Booking Confirmed!</h2>\n    \n    <p>Dear {{2.name}},</p>\n    \n    <p>Your table reservation at Crown Street Food has been confirmed:</p>\n    \n    <div class=\"booking-details\">\n        <ul>\n            <li><strong>📅 Date:</strong> {{formatDate(parseDate(20.DateTimeParsed); \"dddd, MMMM Do YYYY\")}}</li>\n            <li><strong>🕐 Time:</strong> {{formatDate(parseDate(20.DateTimeParsed); \"h:mm A\")}}</li>\n            <li><strong>👥 Party Size:</strong> {{2.guests}} guests</li>\n            <li><strong>🆔 Booking ID:</strong> {{22.id}}</li>\n            {{if(length(2.special_requests) > 0; \"<li><strong>📝 Special Requests:</strong> \" + 2.special_requests + \"</li>\"; \"\")}}</li>\n        </ul>\n    </div>\n    \n    <div class=\"restaurant-info\">\n        <h3>🏪 Restaurant Details:</h3>\n        <p><strong>Crown Street Food</strong><br>\n        Crown Street, Lillington</p>\n        \n        <p><strong>📞 Contact:</strong> [Your phone number]<br>\n        <strong>🕒 Hours:</strong> Mon-Fri 12PM-10PM, Sat-Sun 1PM-11PM</p>\n    </div>\n    \n    <p style=\"margin-top: 30px;\">We look forward to serving you! 🎉</p>\n    \n    <p style=\"color: #7f8c8d; font-size: 12px; margin-top: 30px;\">\n        Need to modify your booking? Please call us or reply to this email.\n    </p>\n</body>\n</html>",
+                                "subject": "Crown Street Food - Booking Confirmation",
+                                "attachments": []
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1200,
+                                    "y": 0
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "cc": {
+                                            "mode": "chose"
+                                        },
+                                        "to": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "bcc": {
+                                            "mode": "chose"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "account": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google-restricted"
+                                            },
+                                            "label": "My Google Restricted connection (subasureshaienthuiast@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "account",
+                                        "type": "account:google-restricted",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "from",
+                                        "type": "text",
+                                        "label": "From"
+                                    },
+                                    {
+                                        "name": "to",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address",
+                                            "required": true
+                                        },
+                                        "type": "array",
+                                        "label": "To",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "html",
+                                        "type": "text",
+                                        "label": "Content"
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": [
+                                            {
+                                                "name": "fileName",
+                                                "type": "filename",
+                                                "label": "File name",
+                                                "required": true,
+                                                "semantic": "file:name"
+                                            },
+                                            {
+                                                "name": "data",
+                                                "type": "buffer",
+                                                "label": "Data",
+                                                "required": true,
+                                                "semantic": "file:data"
+                                            },
+                                            {
+                                                "name": "cid",
+                                                "type": "text",
+                                                "label": "Content-ID"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "cc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address"
+                                        },
+                                        "type": "array",
+                                        "label": "Copy recipient"
+                                    },
+                                    {
+                                        "name": "bcc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address"
+                                        },
+                                        "type": "array",
+                                        "label": "Blind copy recipient"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 17,
+                            "module": "gateway:WebhookRespond",
+                            "version": 1,
+                            "parameters": {},
+                            "mapper": {
+                                "body": "{\n  \"available\": true,\n  \"message\": \"Booking confirmed for {{2.guests}} guests on {{formatDate(parseDate(20.DateTimeParsed; \\ + \"YYYY-MM-DDTHH:mm:ssZ\\\"); \\ + \"MMMM Do\\\")}} at {{formatDate(parseDate(20.DateTimeParsed; \\ + \"YYYY-MM-DDTHH:mm:ssZ\\\"); \\ + \"h:mm A\\\")}} under {{2.name}}. Confirmation sent to {{2.email}}.\",\n  \"booking_id\": \"{{22.id}}\",\n  \"reservationDate\": \"{{formatDate(parseDate(20.DateTimeParsed; \\ + \"YYYY-MM-DDTHH:mm:ssZ\\\"); \\ + \"YYYY-MM-DD\\\")}}\",\n  \"reservationTime\": \"{{formatDate(parseDate(20.DateTimeParsed; \\ + \"YYYY-MM-DDTHH:mm:ssZ\\\"); \\ + \"HH:mm\\\")}}\",\n  \"numberOfGuests\": {{2.guests}},\n  \"email\": \"{{2.email}}\",\n  \"phoneNumber\": \"{{2.phone}}\",\n  \"alternatives\": []\n}",
+                                "status": "200",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type:",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1500,
+                                    "y": 0
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "headers": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        }
+                                    }
+                                },
+                                "expect": [
+                                    {
+                                        "name": "status",
+                                        "type": "uinteger",
+                                        "label": "Status",
+                                        "required": true,
+                                        "validate": {
+                                            "min": 100
+                                        }
+                                    },
+                                    {
+                                        "name": "body",
+                                        "type": "any",
+                                        "label": "Body"
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": [
+                                            {
+                                                "name": "key",
+                                                "type": "text",
+                                                "label": "Key",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 256
+                                                }
+                                            },
+                                            {
+                                                "name": "value",
+                                                "type": "text",
+                                                "label": "Value",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 4096
+                                                }
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Custom headers",
+                                        "validate": {
+                                            "maxItems": 16
+                                        }
+                                    }
+                                ],
+                                "advanced": true
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 34,
+                            "module": "google-calendar:updateAnEvent",
+                            "version": 5,
+                            "parameters": {
+                                "__IMTCONN__": 11497978
+                            },
+                            "filter": {
+                                "name": "Update Booking",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{2.action}}",
+                                            "b": "update",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "end": "{{addMinutes(20.DateTimeParsed; 120)}}",
+                                "event": "{{2.booking_id}}",
+                                "start": "{{20.DateTimeParsed}}",
+                                "append": false,
+                                "summary": "Updated Booking Confirmation",
+                                "calendar": "subasureshaienthuiast@gmail.com",
+                                "allDayEvent": false,
+                                "guestPermissions": {}
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 900,
+                                    "y": 300
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "event": {
+                                            "mode": "edit"
+                                        },
+                                        "colorId": {
+                                            "mode": "chose"
+                                        },
+                                        "calendar": {
+                                            "mode": "chose",
+                                            "label": "subasureshaienthuiast@gmail.com (Primary Calendar)"
+                                        },
+                                        "attendees": {
+                                            "mode": "chose"
+                                        },
+                                        "overrides": {
+                                            "mode": "chose"
+                                        },
+                                        "recurrence": {
+                                            "mode": "chose"
+                                        },
+                                        "visibility": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "allDayEvent": {
+                                            "mode": "chose"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose"
+                                        },
+                                        "sendUpdates": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "transparency": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "My Google connection (subasureshaienthuiast@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "mode": "edit",
+                                        "name": "calendar",
+                                        "type": "select",
+                                        "label": "Calendar ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "event",
+                                        "type": "select",
+                                        "label": "Event ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "colorId",
+                                        "type": "select",
+                                        "label": "Color"
+                                    },
+                                    {
+                                        "name": "summary",
+                                        "type": "text",
+                                        "label": "Event Name"
+                                    },
+                                    {
+                                        "name": "start",
+                                        "time": true,
+                                        "type": "date",
+                                        "label": "Start Date"
+                                    },
+                                    {
+                                        "name": "end",
+                                        "time": true,
+                                        "type": "date",
+                                        "label": "End Date"
+                                    },
+                                    {
+                                        "name": "duration",
+                                        "type": "time",
+                                        "label": "Duration"
+                                    },
+                                    {
+                                        "name": "allDayEvent",
+                                        "type": "boolean",
+                                        "label": "All Day Event",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "description",
+                                        "type": "text",
+                                        "label": "Description"
+                                    },
+                                    {
+                                        "name": "location",
+                                        "type": "text",
+                                        "label": "Location"
+                                    },
+                                    {
+                                        "name": "useDefault",
+                                        "type": "boolean",
+                                        "label": "Use the default reminder settings for this event"
+                                    },
+                                    {
+                                        "name": "overrides",
+                                        "spec": [
+                                            {
+                                                "name": "method",
+                                                "type": "select",
+                                                "label": "Method",
+                                                "options": [
+                                                    {
+                                                        "label": "Email",
+                                                        "value": "email"
+                                                    },
+                                                    {
+                                                        "label": "Pop-up",
+                                                        "value": "popup"
+                                                    }
+                                                ],
+                                                "required": true
+                                            },
+                                            {
+                                                "name": "minutes",
+                                                "type": "uinteger",
+                                                "label": "Minutes",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 40320
+                                                }
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Reminders",
+                                        "validate": {
+                                            "maxItems": 5
+                                        }
+                                    },
+                                    {
+                                        "name": "attendees",
+                                        "spec": [
+                                            {
+                                                "name": "displayName",
+                                                "type": "text",
+                                                "label": "Name"
+                                            },
+                                            {
+                                                "name": "email",
+                                                "type": "email",
+                                                "label": "Email",
+                                                "required": true
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Attendees"
+                                    },
+                                    {
+                                        "name": "append",
+                                        "type": "boolean",
+                                        "label": "Append the Attendees",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "transparency",
+                                        "type": "select",
+                                        "label": "Show me as",
+                                        "validate": {
+                                            "enum": [
+                                                "opaque",
+                                                "transparent"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "visibility",
+                                        "type": "select",
+                                        "label": "Visibility",
+                                        "validate": {
+                                            "enum": [
+                                                "default",
+                                                "public",
+                                                "private"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "sendUpdates",
+                                        "type": "select",
+                                        "label": "Send notifications about the event creation",
+                                        "validate": {
+                                            "enum": [
+                                                "all",
+                                                "externalOnly",
+                                                "none"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "guestPermissions",
+                                        "spec": [
+                                            {
+                                                "name": "guestsCanModify",
+                                                "type": "boolean",
+                                                "label": "Modify event"
+                                            },
+                                            {
+                                                "name": "guestsCanInviteOthers",
+                                                "type": "boolean",
+                                                "label": "Invite others"
+                                            },
+                                            {
+                                                "name": "guestsCanSeeOtherGuests",
+                                                "type": "boolean",
+                                                "label": "See guest list"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Guest Permissions"
+                                    },
+                                    {
+                                        "name": "recurrence",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Value"
+                                        },
+                                        "type": "array",
+                                        "label": "Recurrence"
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": [
+                                            {
+                                                "name": "fileUrl",
+                                                "type": "url",
+                                                "label": "File URL",
+                                                "required": true
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 35,
+                            "module": "google-email:ActionSendEmail",
+                            "version": 2,
+                            "parameters": {
+                                "account": 11498123
+                            },
+                            "mapper": {
+                                "cc": [],
+                                "to": [
+                                    "{{2.email}}"
+                                ],
+                                "bcc": [],
+                                "from": "",
+                                "html": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }\n        .header { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }\n        .booking-details { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; }\n        .restaurant-info { margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd; }\n        ul { list-style: none; padding: 0; }\n        li { margin: 8px 0; }\n        strong { color: #2c3e50; }\n    </style>\n</head>\n<body>\n    <h2 class=\"header\">🍽️ Booking Updated!</h2>\n    \n    <p>Dear {{2.name}},</p>\n    \n    <p>Your table reservation at Crown Street Food has been updated:</p>\n    \n    <div class=\"booking-details\">\n        <ul>\n            <li><strong>📅 Date:</strong> {{formatDate(parseDate(20.DateTimeParsed); \"dddd, MMMM Do YYYY\")}}</li>\n            <li><strong>🕐 Time:</strong> {{formatDate(parseDate(20.DateTimeParsed); \"h:mm A\")}}</li>\n            <li><strong>👥 Party Size:</strong> {{2.guests}} guests</li>\n            <li><strong>🆔 Booking ID:</strong> {{34.id}}</li>\n            {{if(length(2.special_requests) > 0; \"<li><strong>📝 Special Requests:</strong> \" + 2.special_requests + \"</li>\"; \"\")}}</li>\n        </ul>\n    </div>\n    \n    <div class=\"restaurant-info\">\n        <h3>🏪 Restaurant Details:</h3>\n        <p><strong>Crown Street Food</strong><br>\n        Crown Street, Lillington</p>\n        \n        <p><strong>📞 Contact:</strong> [Your phone number]<br>\n        <strong>🕒 Hours:</strong> Mon-Fri 12PM-10PM, Sat-Sun 1PM-11PM</p>\n    </div>\n    \n    <p style=\"margin-top: 30px;\">We look forward to serving you! 🎉</p>\n    \n    <p style=\"color: #7f8c8d; font-size: 12px; margin-top: 30px;\">\n        Need to modify your booking? Please call us or reply to this email.\n    </p>\n</body>\n</html>",
+                                "subject": "Crown Street Food - Booking Confirmation",
+                                "attachments": []
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1200,
+                                    "y": 300
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "cc": {
+                                            "mode": "chose"
+                                        },
+                                        "to": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "bcc": {
+                                            "mode": "chose"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "account": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google-restricted"
+                                            },
+                                            "label": "My Google Restricted connection (subasureshaienthuiast@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "account",
+                                        "type": "account:google-restricted",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "from",
+                                        "type": "text",
+                                        "label": "From"
+                                    },
+                                    {
+                                        "name": "to",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address",
+                                            "required": true
+                                        },
+                                        "type": "array",
+                                        "label": "To",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "html",
+                                        "type": "text",
+                                        "label": "Content"
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": [
+                                            {
+                                                "name": "fileName",
+                                                "type": "filename",
+                                                "label": "File name",
+                                                "required": true,
+                                                "semantic": "file:name"
+                                            },
+                                            {
+                                                "name": "data",
+                                                "type": "buffer",
+                                                "label": "Data",
+                                                "required": true,
+                                                "semantic": "file:data"
+                                            },
+                                            {
+                                                "name": "cid",
+                                                "type": "text",
+                                                "label": "Content-ID"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "cc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address"
+                                        },
+                                        "type": "array",
+                                        "label": "Copy recipient"
+                                    },
+                                    {
+                                        "name": "bcc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address"
+                                        },
+                                        "type": "array",
+                                        "label": "Blind copy recipient"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 36,
+                            "module": "gateway:WebhookRespond",
+                            "version": 1,
+                            "parameters": {},
+                            "mapper": {
+                                "body": "{\n  \"available\": true,\n  \"message\": \"Your booking has been rescheduled to {{formatDate(parseDate(20.DateTimeParsed; \"YYYY-MM-DDTHH:mm:ssZ\"); \"MMMM Do\")}} at {{formatDate(parseDate(20.DateTimeParsed; \"YYYY-MM-DDTHH:mm:ssZ\"); \"h:mm A\")}} for {{2.guests}} guests.\",\n  \"booking_id\": \"{{34.id}}\",\n  \"reservationDate\": \"{{formatDate(parseDate(20.DateTimeParsed; \"YYYY-MM-DDTHH:mm:ssZ\"); \"YYYY-MM-DD\")}}\",\n  \"reservationTime\": \"{{formatDate(parseDate(20.DateTimeParsed; \"YYYY-MM-DDTHH:mm:ssZ\"); \"HH:mm\")}}\",\n  \"numberGuests\": {{2.guests}},\n  \"email\": \"{{2.email}}\",\n  \"phoneNumber\": \"{{2.phone}}\"\n}",
+                                "status": "200",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type:",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1500,
+                                    "y": 300
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "headers": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        }
+                                    }
+                                },
+                                "expect": [
+                                    {
+                                        "name": "status",
+                                        "type": "uinteger",
+                                        "label": "Status",
+                                        "required": true,
+                                        "validate": {
+                                            "min": 100
+                                        }
+                                    },
+                                    {
+                                        "name": "body",
+                                        "type": "any",
+                                        "label": "Body"
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": [
+                                            {
+                                                "name": "key",
+                                                "type": "text",
+                                                "label": "Key",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 256
+                                                }
+                                            },
+                                            {
+                                                "name": "value",
+                                                "type": "text",
+                                                "label": "Value",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 4096
+                                                }
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Custom headers",
+                                        "validate": {
+                                            "maxItems": 16
+                                        }
+                                    }
+                                ],
+                                "advanced": true
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 38,
+                            "module": "google-calendar:deleteAnEvent",
+                            "version": 5,
+                            "parameters": {
+                                "__IMTCONN__": 11498256
+                            },
+                            "filter": {
+                                "name": "cancel Booking",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{2.action}}",
+                                            "b": "cancel",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "event": "{{2.booking_id}}",
+                                "calendar": "subasureshaienthuiast@gmail.com"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 900,
+                                    "y": 600
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "calendar": {
+                                            "mode": "edit"
+                                        },
+                                        "sendUpdates": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "My Google connection (subasureshaienthuiast@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "mode": "edit",
+                                        "name": "calendar",
+                                        "type": "select",
+                                        "label": "Calendar ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "sendUpdates",
+                                        "type": "select",
+                                        "label": "Send notifications about the event deletion",
+                                        "validate": {
+                                            "enum": [
+                                                "all",
+                                                "externalOnly",
+                                                "none"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "event",
+                                        "type": "any",
+                                        "label": "Event ID",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 39,
+                            "module": "google-email:ActionSendEmail",
+                            "version": 2,
+                            "parameters": {
+                                "account": 11498340
+                            },
+                            "mapper": {
+                                "cc": [],
+                                "to": [
+                                    "{{2.email}}"
+                                ],
+                                "bcc": [],
+                                "from": "",
+                                "html": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }\n        .header { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }\n        .booking-details { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; }\n        .restaurant-info { margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd; }\n        ul { list-style: none; padding: 0; }\n        li { margin: 8px 0; }\n        strong { color: #2c3e50; }\n    </style>\n</head>\n<body>\n    <h2 class=\"header\">🍽️ Booking has been Cancelled!</h2>\n    \n    <p>Dear {{2.name}},</p>\n    \n    <p>Your table reservation for {{2.guests}} at Crown Street Food has been cancelled.</p>\n    \n    <div class=\"restaurant-info\">\n        <h3>🏪 Restaurant Details:</h3>\n        <p><strong>Crown Street Food</strong><br>\n        Crown Street, Lillington</p>\n        \n        <p><strong>📞 Contact:</strong> [Your phone number]<br>\n        <strong>🕒 Hours:</strong> Mon-Fri 12PM-10PM, Sat-Sun 1PM-11PM</p>\n    </div>\n    \n    <p style=\"margin-top: 30px;\">We look forward to serving you! 🎉</p>\n    \n    <p style=\"color: #7f8c8d; font-size: 12px; margin-top: 30px;\">\n        Need to modify your booking? Please call us or reply to this email.\n    </p>\n</body>\n</html>",
+                                "subject": "Crown Street Food- Cancellation Confirmation ",
+                                "attachments": []
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1200,
+                                    "y": 600
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "cc": {
+                                            "mode": "chose"
+                                        },
+                                        "to": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "bcc": {
+                                            "mode": "chose"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "account": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google-restricted"
+                                            },
+                                            "label": "My Google Restricted connection (subasureshaienthuiast@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "account",
+                                        "type": "account:google-restricted",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "from",
+                                        "type": "text",
+                                        "label": "From"
+                                    },
+                                    {
+                                        "name": "to",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address",
+                                            "required": true
+                                        },
+                                        "type": "array",
+                                        "label": "To",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "html",
+                                        "type": "text",
+                                        "label": "Content"
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": [
+                                            {
+                                                "name": "fileName",
+                                                "type": "filename",
+                                                "label": "File name",
+                                                "required": true,
+                                                "semantic": "file:name"
+                                            },
+                                            {
+                                                "name": "data",
+                                                "type": "buffer",
+                                                "label": "Data",
+                                                "required": true,
+                                                "semantic": "file:data"
+                                            },
+                                            {
+                                                "name": "cid",
+                                                "type": "text",
+                                                "label": "Content-ID"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "cc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address"
+                                        },
+                                        "type": "array",
+                                        "label": "Copy recipient"
+                                    },
+                                    {
+                                        "name": "bcc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Email address"
+                                        },
+                                        "type": "array",
+                                        "label": "Blind copy recipient"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 40,
+                            "module": "gateway:WebhookRespond",
+                            "version": 1,
+                            "parameters": {},
+                            "mapper": {
+                                "body": "{\n  \"available\": true,\n  \"message\": \" Dear {{2.name}}, Your booking  has been successfully cancelled.\"\n}",
+                                "status": "200",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type:",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1500,
+                                    "y": 600
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "headers": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        }
+                                    }
+                                },
+                                "expect": [
+                                    {
+                                        "name": "status",
+                                        "type": "uinteger",
+                                        "label": "Status",
+                                        "required": true,
+                                        "validate": {
+                                            "min": 100
+                                        }
+                                    },
+                                    {
+                                        "name": "body",
+                                        "type": "any",
+                                        "label": "Body"
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": [
+                                            {
+                                                "name": "key",
+                                                "type": "text",
+                                                "label": "Key",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 256
+                                                }
+                                            },
+                                            {
+                                                "name": "value",
+                                                "type": "text",
+                                                "label": "Value",
+                                                "required": true,
+                                                "validate": {
+                                                    "max": 4096
+                                                }
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Custom headers",
+                                        "validate": {
+                                            "maxItems": 16
+                                        }
+                                    }
+                                ],
+                                "advanced": true
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu2.make.com",
+        "notes": []
+    }
+}
