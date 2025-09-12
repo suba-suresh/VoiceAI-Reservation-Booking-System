@@ -52,7 +52,7 @@ To solve this, I built an AI-powered booking assistant using:
 
 
 ### 📌 See 
-[Screenshots](./Screenshots/workflow_overview.png)
+[Screenshots](./Docs/workflow_overview.png)
 
 
 ### 5. Business Impact
