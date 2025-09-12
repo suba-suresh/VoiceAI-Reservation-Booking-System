@@ -50,16 +50,17 @@ Customers can book, edit, or cancel reservations using natural voice commands. T
 
 ## 📂 Repository Structure
 /scenarios
- └── booking-system.json # Exported Make.com scenario blueprint
+ ── booking-system.json # Exported Make.com scenario blueprint
+ 
 /screenshots
- └── scenario.png        # Visual workflow screenshot
+ ── scenario.png        # Visual workflow screenshot
 
 
 ---
 
 ## 📸 Screenshots
 Example:
-![Scenario Overview](./screenshots/scenario.png)
+![Scenario Overview](./Screenshots/scenario.png)
 
 ---
 
