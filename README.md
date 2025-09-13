@@ -65,7 +65,8 @@ Example:
 ---
 
 ## 📑 System Prompt (Vapi)
-The assistant is configured with a system prompt that defines restaurant info, booking flow, date handling, and error handling rules. See the [System Prompt](./SYSTEM_PROMPT.md) file for full details.
+The assistant is configured with a system prompt that defines restaurant info, booking flow, date handling, and error handling rules.
+See the [System Prompt](./SystemPrompt/SYSTEM_PROMPT.md) file for full details.
 
 ---
 
