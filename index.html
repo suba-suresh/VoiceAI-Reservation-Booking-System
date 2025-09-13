@@ -32,15 +32,52 @@
       to {opacity:1;transform:translateY(0);}
     }
 
-    nav a { 
-  margin: 0 6px; 
-  font-size: 0.95rem; 
-  color: var(--primary); 
-  text-decoration: none; 
+       nav {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 15px;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
     }
-   nav a:hover { color: var(--accent); }
-
-
+    
+    nav a {
+      position: relative;
+      padding: 6px 4px;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0%;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    
+    nav a:hover {
+      color: var(--accent);
+    }
+    
+    nav a:hover::after {
+      width: 100%;
+    }
+    
+    nav a.active {
+      font-weight: 600;
+      color: var(--accent);
+    }
+    
+    nav a.active::after {
+      width: 100%;
+    }
+    
     footer a { 
   display:inline-block; 
   margin-top:8px; 
@@ -58,20 +95,20 @@
   </header>
 
   <nav aria-label="Main site navigation" style="text-align:center; padding:15px; background:#f8fafc; border-bottom:1px solid #e2e8f0;">
-  <a href="#introduction">Introduction</a> |
-  <a href="#problem">Problem</a> |
-  <a href="#solution">Solution</a> |
-  <a href="#architecture">Workflow</a> |
-  <a href="#scenario-architecture">Scenario</a> |
-  <a href="#impact">Impact</a> |
-  <a href="#future">Future</a> |
-  <a href="#learnings">Learnings</a>
+  <a href="#introduction">INTRODUCTION</a> |
+  <a href="#problem">PROBLEM</a> |
+  <a href="#solution">SOLUTION</a> |
+  <a href="#architecture">WORKFLOW</a> |
+  <a href="#scenario-architecture">SCENARIO</a> |
+  <a href="#impact">IMPACT</a> |
+  <a href="#future">FUTURE</a> |
+  <a href="#learnings">LEARNINGS</a>
 </nav>
 
   <main class="container">
     <section id="introduction">
       <h2>1. Introduction</h2>
-      <p>Crown Street Food, a local restaurant in Lillington, faced challenges with manual booking management — staff spent significant time handling calls, managing double-bookings, and confirming reservations manually.</p>
+      <p>Crown Street Food, a local restaurant in Lillington, faced challenges with manual booking management - staff spent significant time handling calls, managing double-bookings, and confirming reservations manually.</p>
       <p>This project introduced an AI-powered booking assistant integrating:</p>
       <div class="grid">
         <div class="card" style="background:#ecfeff"><h3>Vapi</h3><p>Voice AI assistant to capture booking requests.</p></div>
@@ -159,6 +196,26 @@ Delete → AI finds event → deletes → sends cancellation email</pre>
     },{threshold:0.2});
 
     document.querySelectorAll('section').forEach(sec=>observer.observe(sec));
+
+    const sections = document.querySelectorAll("main section");
+const navLinks = document.querySelectorAll("nav a");
+
+window.addEventListener("scroll", () => {
+  let current = "";
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 80;
+    if (scrollY >= sectionTop) {
+      current = section.getAttribute("id");
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === `#${current}`) {
+      link.classList.add("active");
+    }
+  });
+});
+
   </script>
 </body>
 </html>
