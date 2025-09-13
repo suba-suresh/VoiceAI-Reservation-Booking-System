@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Business Case Study — AI Restaurant Booking Automation</title>
-  <meta name="description" content="Professional business case study presentation for Crown Street Food’s AI-powered booking automation." />
+  <meta name="description" content="Case study: AI-powered restaurant booking automation using Vapi, Make.com, Google Calendar, and Gmail. Includes workflow architecture, business impact, and future enhancements." />
   <style>
     :root {
       --bg:#ffffff; --primary:#0f172a; --secondary:#475569; --accent:#0ea5a4; --accent-light:#ccfbf1; --card:#f8fafc; --max:1100px;
@@ -31,6 +31,24 @@
       from {opacity:0;transform:translateY(20px);}
       to {opacity:1;transform:translateY(0);}
     }
+
+    nav a { 
+  margin: 0 6px; 
+  font-size: 0.95rem; 
+  color: var(--primary); 
+  text-decoration: none; 
+    }
+   nav a:hover { color: var(--accent); }
+
+
+    footer a { 
+  display:inline-block; 
+  margin-top:8px; 
+  color:var(--accent); 
+  text-decoration:none;
+  }
+  footer a:hover { text-decoration:underline; }
+
   </style>
 </head>
 <body>
@@ -38,6 +56,17 @@
     <h1>AI-Powered Restaurant Booking Automation</h1>
     <p>A professional business case study presentation for Crown Street Food — streamlining reservations with Vapi, Make.com, Google Calendar, and Gmail.</p>
   </header>
+
+  <nav aria-label="Main site navigation" style="text-align:center; padding:15px; background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+  <a href="#introduction">Introduction</a> |
+  <a href="#problem">Problem</a> |
+  <a href="#solution">Solution</a> |
+  <a href="#architecture">Workflow</a> |
+  <a href="#scenario-architecture">Scenario</a> |
+  <a href="#impact">Impact</a> |
+  <a href="#future">Future</a> |
+  <a href="#learnings">Learnings</a>
+</nav>
 
   <main class="container">
     <section id="introduction">
@@ -77,7 +106,7 @@ Delete → AI finds event → deletes → sends cancellation email</pre>
       </div>
     </section>
 
-    <section id="Scenario architecture">
+    <section id="scenario-architecture">
       <h2>5. Scenario Architecture</h2>
       <div class="workflow-wrapper">
        <img class="diagram" src="Screenshots/scenario.png" alt="scenario Diagram" />
@@ -116,6 +145,9 @@ Delete → AI finds event → deletes → sends cancellation email</pre>
 
   <footer>
     &copy; 2025 Crown Street Food | Business Case Study Presentation
+     <a href="https://github.com/suba-suresh/VoiceAI-Reservation-Booking-System" target="_blank">
+    🔗 View project repository on GitHub
+  </a>
   </footer>
 
   <script>
